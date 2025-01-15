@@ -1,0 +1,10 @@
+
+*.pptx
+*.pyc
+__pycache__/*.pyc
+
+build/
+dist*/
+outputs/
+data/*.txt
+modules/__pycache__/*.pyc
