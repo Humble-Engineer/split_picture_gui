@@ -22,7 +22,7 @@ def plot_line_map(data):
     # 遍历每一行数据
     for i, row in enumerate(data):
         # 绘制每行数据的曲线
-        ax.plot(x, row, marker="o", color=colors[i], label=f"row_{i+1}")
+        ax.plot(x, row, marker="D", color=colors[i], label=f"row_{i+1}", linewidth=3)
 
     # 设置 x 轴和 y 轴的刻度
     ax.set_xticks(x)
