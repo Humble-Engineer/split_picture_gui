@@ -8,6 +8,7 @@ class Algorithm:
     def __init__(self, main_window=None):
 
         self.image_path = None
+        self.data = []
 
         if main_window is not None:
 
@@ -22,7 +23,7 @@ class Algorithm:
             self.rows = 4
             self.cols = 6
             self.r = 0.2
-            self.precision = 3
+            self.precision = 4
 
     def count(self, main_window=None):
 
@@ -77,6 +78,8 @@ class Algorithm:
         if not os.path.exists(output_folder):
             os.makedirs(output_folder)
         
+        # 清空数据
+        self.data = []
         # 分割图像
         for i in range(self.rows):
             for j in range(self.cols):
@@ -96,7 +99,9 @@ class Algorithm:
                 # 计算子图的平均灰度值 (R+G+B)/3
                 gray_sub_image = cv2.cvtColor(sub_image, cv2.COLOR_BGR2GRAY)
                 average_gray_value = cv2.mean(gray_sub_image)[0]
-                text = f'{average_gray_value:.{self.precision}g}'
+                average_gray_value = float(f'{average_gray_value:.{self.precision}g}')
+                self.data.append(average_gray_value)
+                text = f'{average_gray_value}'
 
                 # 计算子图的加权灰度值 (a*R+b*G+c*B)/3
                 # weights = np.array([0.114, 0.587, 0.299])
@@ -135,6 +140,10 @@ class Algorithm:
                 filename = f'{i+1}-{j+1}.jpg'
                 cv2.imwrite(os.path.join(output_folder, filename), sub_image)
 
+        # 如果你需要特定的形状可以调整为：
+        self.data = np.array(self.data).reshape((self.rows, self.cols))
+        print(self.data)
+
         print("图像已保存到", output_folder)
 
         # 显示分割后的图像（调试模式）
@@ -154,6 +163,6 @@ if __name__ == '__main__':
 
     algorithm = Algorithm()
 
-    algorithm.image_path = r'samples\plate_8x12.png'
+    algorithm.image_path = r'samples\plate_4x6.png'
 
     algorithm.count()
