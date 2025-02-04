@@ -82,8 +82,8 @@ class Basic:
         y = (img_height - text_height) // 2
         
         # 手动绘制粗体效果
-        for dx in range(-1, 3):
-            for dy in range(-1, 3):
+        for dx in range(-1, 1):
+            for dy in range(-1, 1):
                 draw.text((x + dx, y + dy), text, font=font, fill=color)
         
         img = cv.cvtColor(np.array(img_pil), cv.COLOR_RGB2BGR)
