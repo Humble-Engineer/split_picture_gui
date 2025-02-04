@@ -3,6 +3,9 @@ from pathlib import Path
 import cv2 as cv
 import os
 
+import numpy as np
+from PIL import Image, ImageDraw, ImageFont
+
 from PySide6.QtWidgets import QFileDialog
 from PySide6.QtGui import QPixmap, QImage
 from PySide6.QtWidgets import QSizePolicy
@@ -62,7 +65,30 @@ class Basic:
             return None, None
 
         return rows, cols
+    
+    def put_chinese_text(self, img, text, font_path, font_size, color):
+        img_pil = Image.fromarray(cv.cvtColor(img, cv.COLOR_BGR2RGB))
+        draw = ImageDraw.Draw(img_pil)
+        font = ImageFont.truetype(font_path, font_size, encoding="utf-8")
         
+        # 获取文本边界框
+        bbox = draw.textbbox((0, 0), text, font=font)
+        text_width = bbox[2] - bbox[0]
+        text_height = bbox[3] - bbox[1]
+        
+        # 计算文本居中位置
+        img_width, img_height = img_pil.size
+        x = (img_width - text_width) // 2
+        y = (img_height - text_height) // 2
+        
+        # 手动绘制粗体效果
+        for dx in range(-1, 3):
+            for dy in range(-1, 3):
+                draw.text((x + dx, y + dy), text, font=font, fill=color)
+        
+        img = cv.cvtColor(np.array(img_pil), cv.COLOR_RGB2BGR)
+        return img
+    
     def load_image(self):
         """
         加载并显示原始图像。

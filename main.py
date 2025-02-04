@@ -1,16 +1,16 @@
 
-import sys, cv2
-
+from ui.MainWindow_ui import Ui_MainWindow
 from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtGui import QIcon
 
-from ui.MainWindow_ui import Ui_MainWindow
+import sys, cv2
 
 from modules.basic import Basic
 # from modules.camera import Camera
 from modules.algorithm import Algorithm
 # from modules.draw import MplCanvas
 from modules.record import DataHandler
+
 
 class MainWindow(QMainWindow):
     """
@@ -35,10 +35,16 @@ class MainWindow(QMainWindow):
 
         self.slot_bind()  # 绑定槽函数
         
-        # 显示开屏默认背景
-        screen = cv2.imread(r'icons\background.png')
-        self.basic.display_image(screen)
+        # 设置并显示开屏默认背景及标题
+        background = cv2.imread(r'resources\icons\img2.jpg')
+        title = '多样品比色阵列检测软件'
+        font = r'resources\fonts\SimHei.ttf'
+        font_size = 120
+        color = (0, 0, 0)
+        screen = self.basic.put_chinese_text(background, title, font, font_size, color)
 
+        self.basic.display_image(screen)
+  
     def argu_init(self):
         self.ui.rows_Slider.setValue(1)
         self.ui.cols_Slider.setValue(1)
@@ -100,7 +106,7 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     # 创建 QApplication 实例
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon('icons/split.png'))
+    app.setWindowIcon(QIcon(r'resources\icons\split.png'))
 
     # 创建主窗口并显示
     main_window = MainWindow()
