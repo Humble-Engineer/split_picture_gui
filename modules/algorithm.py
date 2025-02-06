@@ -69,17 +69,18 @@ class Algorithm:
                 bottom_right_y = center_y + radius
                 cv2.rectangle(image, (top_left_x, top_left_y), (bottom_right_x, bottom_right_y), (0, 0, 255), 2)
         
-        # 生成基于时间戳的子文件夹名称
-        timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
-        output_folder = f'{timestamp}'
-
-        # 创建输出子文件夹
-        output_folder = os.path.join('outputs', output_folder)
-        if not os.path.exists(output_folder):
-            os.makedirs(output_folder)
-        
         # 清空数据
         self.data = []
+        
+        # 计算拼接后的大图的尺寸
+        sub_image_height = int(row_height * 2 * self.r)
+        sub_image_width = int(col_width * 2 * self.r)
+        stitched_height = sub_image_height * self.rows
+        stitched_width = sub_image_width * self.cols
+        
+        # 创建一个空白的大图
+        stitched_image = np.full((stitched_height, stitched_width, 3), 255, dtype=np.uint8)
+
         # 分割图像
         for i in range(self.rows):
             for j in range(self.cols):
@@ -95,6 +96,9 @@ class Algorithm:
                 
                 # 裁剪图像
                 sub_image = image[start_row:end_row, start_col:end_col]
+
+                # 调整子图大小以适应拼接后的图像
+                sub_image = cv2.resize(sub_image, (sub_image_width, sub_image_height))
 
                 # 计算子图的平均灰度值 (R+G+B)/3
                 gray_sub_image = cv2.cvtColor(sub_image, cv2.COLOR_BGR2GRAY)
@@ -133,12 +137,39 @@ class Algorithm:
                 # 设置文本位置为子图像的中心
                 text_position = (text_x, text_y)
 
-                # 绘制文本
+                 # 绘制文本到子图
                 cv2.putText(sub_image, text, text_position, font, font_scale, font_color, thickness, line_type)
 
-                # 保存分割后的图像
-                filename = f'{i+1}-{j+1}.jpg'
-                cv2.imwrite(os.path.join(output_folder, filename), sub_image)
+                # 计算文本在原始图像上的位置
+                top_left_x = j * col_width + col_width // 2 - sub_width // 2
+                top_left_y = i * row_height + row_height // 2 - sub_height // 2
+                text_x = top_left_x + (sub_width - text_width) // 2
+                text_y = top_left_y + (sub_height + text_height) // 2
+
+                # 绘制文本到原始图像（左上角）
+                # cv2.putText(image, text, (top_left_x + 5, top_left_y + 15), font, font_scale, font_color, thickness, line_type)
+                # 绘制文本到原始图像（居中）
+                cv2.putText(image, text, (text_x, text_y), font, font_scale, font_color, thickness, line_type)
+
+                # 将子图放置到大图的相应位置
+                start_y = i * sub_image_height
+                start_x = j * sub_image_width
+                stitched_image[start_y:start_y + sub_image_height, start_x:start_x + sub_image_width] = sub_image
+
+
+        # 生成基于时间戳的子文件夹名称
+        timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
+        output_folder = f'{timestamp}'
+
+        # 创建输出子文件夹
+        output_folder = os.path.join('outputs', output_folder)
+        if not os.path.exists(output_folder):
+            os.makedirs(output_folder)
+
+        # 保存最终的大图
+        stitched_filename = f'{timestamp}.jpg'
+        stitched_output_path = os.path.join(output_folder, stitched_filename)
+        cv2.imwrite(stitched_output_path, stitched_image)
 
         # 如果你需要特定的形状可以调整为：
         self.data = np.array(self.data).reshape((self.rows, self.cols))
