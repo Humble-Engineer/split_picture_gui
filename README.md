@@ -12,9 +12,8 @@
 
 # 2. 打包发布
 
-pyinstaller -F -w --icon=./icons/split.png --distpath ./dist_split_gui --name split_gui main.py
+pyinstaller -F -w --icon=./resources/icons/split.png main.py
 
-pyinstaller -F -w --icon=./icons/split.png main.py
 -w (–windowed / –noconsole): 对于 GUI 应用程序，隐藏控制台窗口。
 --icon=FILE.ico: 指定可执行文件的图标。
 
