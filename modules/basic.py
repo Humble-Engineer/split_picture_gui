@@ -112,11 +112,12 @@ class Basic:
             self.main_window.origin_img = cv.imread(self.main_window.image_path, cv.IMREAD_COLOR)
             
             '''特色功能，猜测分割参数''' 
-            rows, cols = self.guess_args(self.main_window.image_path)
-
-            # 设置滑动条的值，并自动同步到属性
-            self.main_window.ui.rows_Slider.setValue(rows)
-            self.main_window.ui.cols_Slider.setValue(cols)
+            try:
+                rows, cols = self.guess_args(self.main_window.image_path)
+                self.main_window.ui.rows_Slider.setValue(rows)
+                self.main_window.ui.cols_Slider.setValue(cols)
+            except:
+                pass
             ''''''
 
             # 获取图像的维度信息

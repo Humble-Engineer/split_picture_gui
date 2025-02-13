@@ -123,7 +123,7 @@ class Algorithm:
                 # 在子图绘制文本
                 font = cv2.FONT_HERSHEY_SIMPLEX
                 font_scale = 0.5
-                font_color = (0, 0, 255)
+                font_color = (0, 0, 0)
                 thickness = 1
                 line_type = cv2.LINE_AA
 
@@ -194,6 +194,6 @@ if __name__ == '__main__':
 
     algorithm = Algorithm()
 
-    algorithm.image_path = r'samples\plate_4x6.png'
+    algorithm.image_path = r'samples\tests\plate_4x6.png'
 
     algorithm.count()
