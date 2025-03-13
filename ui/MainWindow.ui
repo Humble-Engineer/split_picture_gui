@@ -697,7 +697,7 @@
          </font>
         </property>
         <property name="text">
-         <string>开始计数</string>
+         <string>开始计算</string>
         </property>
        </widget>
       </item>

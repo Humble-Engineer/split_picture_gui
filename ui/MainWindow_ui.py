@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'MainWindow.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.8.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -363,6 +363,6 @@ class Ui_MainWindow(object):
         self.r_label_3.setText(QCoreApplication.translate("MainWindow", u"\u6709\u6548\u6570\u5b57\uff1a", None))
         self.precision_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.default_button.setText(QCoreApplication.translate("MainWindow", u"\u9ed8\u8ba4\u53c2\u6570", None))
-        self.count_button.setText(QCoreApplication.translate("MainWindow", u"\u5f00\u59cb\u8ba1\u6570", None))
+        self.count_button.setText(QCoreApplication.translate("MainWindow", u"\u5f00\u59cb\u8ba1\u7b97", None))
     # retranslateUi
 
