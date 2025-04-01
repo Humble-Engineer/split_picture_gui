@@ -103,7 +103,7 @@ class Basic:
             parent=self.main_window,
             caption="选择图像",
             dir="samples",
-            filter="Image files (*.png *.jpg *.jpeg *.bmp)"
+            filter="All Images (*.png *.jpg *.jpeg *.bmp *.gif *.tif *.tiff *.webp *.ppm *.pgm *.pbm *.svg);;All Files (*)"
         )
 
         if selected_file:

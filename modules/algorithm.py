@@ -175,7 +175,7 @@ class Algorithm:
         self.data = np.array(self.data).reshape((self.rows, self.cols))
         print(self.data)
 
-        print("图像已保存到", output_folder)
+        print("图像文件已保存到：", stitched_output_path)
 
         # 生成Excel数据文件
         try:
@@ -193,7 +193,7 @@ class Algorithm:
             # 设置Excel保存路径
             excel_path = os.path.join(output_folder, 'data.xlsx')
             wb.save(excel_path)
-            print(f"数据文件已保存到 {excel_path}")
+            print(f"数据表格已保存到： {excel_path}")
             
         except Exception as e:
             print(f"生成Excel文件失败: {str(e)}")
