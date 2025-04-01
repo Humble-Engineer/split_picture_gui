@@ -91,41 +91,54 @@ class Basic:
     
     def load_image(self):
         """
-        加载并显示原始图像。
+        加载并显示原始图像（完整函数代码）
         """
         try:
-            self.main_window.camera.stop_thread()  # 先关闭实时捕获功能防止图像被覆盖
+            self.main_window.camera.stop_thread()  # 关闭实时捕获防止图像覆盖
         except Exception as e:
-            # print(f"Error: {e}")
-            pass
+            pass  # 忽略摄像头模块未启用的异常
 
-        # 弹出文件对话框，让用户选择图像
-        initial_dir = "samples"  # 可以指定初始目录
-        file_filter = "Image files (*.png *.jpg *.jpeg *.bmp)"  # 指定支持的文件类型
-        selected_file, _ = QFileDialog.getOpenFileName(self.main_window, "选择图像", initial_dir, file_filter)
+        # 文件选择对话框
+        selected_file, _ = QFileDialog.getOpenFileName(
+            parent=self.main_window,
+            caption="选择图像",
+            dir="samples",
+            filter="Image files (*.png *.jpg *.jpeg *.bmp)"
+        )
 
-        # 如果用户选择了文件，则加载并显示图像
         if selected_file:
-            # 将路径转换为Path对象并获取字符串路径
-            self.main_window.image_path = Path(selected_file).as_posix()  # 使用 as_posix() 获取字符串路径
-            # 使用 OpenCV 读取图像，并保存为属性
-            self.main_window.origin_img = cv.imread(self.main_window.image_path, cv.IMREAD_COLOR)
-            
-            '''特色功能，猜测分割参数''' 
             try:
-                rows, cols = self.guess_args(self.main_window.image_path)
-                self.main_window.ui.rows_Slider.setValue(rows)
-                self.main_window.ui.cols_Slider.setValue(cols)
-            except:
-                pass
-            ''''''
-
-            # 获取图像的维度信息
-            self.main_window.height, self.main_window.width, self.main_window.channels = self.main_window.origin_img.shape
-            # 当前处理完成的图像与原始图像相同
-            self.main_window.result_img = self.main_window.origin_img
-            # 显示原始图像
-            self.display_image(self.main_window.result_img)
+                # 图像读取（支持中文路径）
+                self.main_window.image_path = selected_file  # 直接使用原始路径
+                
+                # 使用二进制读取解决编码问题
+                with open(self.main_window.image_path, "rb") as f:
+                    img_array = np.frombuffer(f.read(), np.uint8)
+                    self.main_window.origin_img = cv.imdecode(img_array, cv.IMREAD_COLOR)
+                
+                # 空值校验
+                if self.main_window.origin_img is None:
+                    raise ValueError("图像读取失败，请检查文件格式和路径")
+                
+                # 自动设置分割参数
+                try:
+                    rows, cols = self.guess_args(self.main_window.image_path)
+                    self.main_window.ui.rows_Slider.setValue(rows if rows else 1)
+                    self.main_window.ui.cols_Slider.setValue(cols if cols else 1)
+                except Exception as e:
+                    print(f"参数猜测失败: {str(e)}")
+                
+                # 存储图像属性
+                h, w, c = self.main_window.origin_img.shape
+                self.main_window.height, self.main_window.width, self.main_window.channels = h, w, c
+                self.main_window.result_img = self.main_window.origin_img.copy()
+                
+                # 显示图像
+                self.display_image(self.main_window.result_img)
+                
+            except Exception as e:
+                print(f"图像加载错误: {str(e)}")
+                self.main_window.result_img = None
 
     def save_image(self):
         """
