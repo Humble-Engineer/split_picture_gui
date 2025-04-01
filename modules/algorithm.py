@@ -167,7 +167,7 @@ class Algorithm:
             os.makedirs(output_folder)
 
         # 保存最终的大图
-        stitched_filename = f'{timestamp}.jpg'
+        stitched_filename = 'result.jpg'
         stitched_output_path = os.path.join(output_folder, stitched_filename)
         cv2.imwrite(stitched_output_path, stitched_image)
 
@@ -176,6 +176,32 @@ class Algorithm:
         print(self.data)
 
         print("图像已保存到", output_folder)
+
+        # 生成Excel数据文件
+        try:
+            from openpyxl import Workbook
+            # 创建Excel工作簿
+            wb = Workbook()
+            ws = wb.active
+            
+            # 将二维数组数据写入工作表
+            for i in range(self.rows):
+                for j in range(self.cols):
+                    # 行列对应关系：数组的[i][j]对应Excel的i+1行j+1列
+                    ws.cell(row=i+1, column=j+1, value=self.data[i][j])
+            
+            # 设置Excel保存路径
+            excel_path = os.path.join(output_folder, 'data.xlsx')
+            wb.save(excel_path)
+            print(f"数据文件已保存到 {excel_path}")
+            
+        except Exception as e:
+            print(f"生成Excel文件失败: {str(e)}")
+            # 如果没有安装openpyxl库的提示
+            if "No module named 'openpyxl'" in str(e):
+                print("请先安装openpyxl库：pip install openpyxl")
+
+    # ...（保持原有后续代码不变）
 
         # 显示分割后的图像（调试模式）
         if self.image_path is not None:
