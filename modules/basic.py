@@ -123,8 +123,9 @@ class Basic:
                 # 自动设置分割参数
                 try:
                     rows, cols = self.guess_args(self.main_window.image_path)
-                    self.main_window.ui.rows_Slider.setValue(rows if rows else 1)
-                    self.main_window.ui.cols_Slider.setValue(cols if cols else 1)
+                    if rows != None and cols!= None: 
+                        self.main_window.ui.rows_Slider.setValue(rows)
+                        self.main_window.ui.cols_Slider.setValue(cols)
                 except Exception as e:
                     print(f"参数猜测失败: {str(e)}")
                 
