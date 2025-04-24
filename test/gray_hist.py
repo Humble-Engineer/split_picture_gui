@@ -45,5 +45,5 @@ def display_image_and_histogram(image_path):
 
 if __name__ == "__main__":
     # 固定路径图像
-    image_path = r"F:\repos\Projects\split_picture_gui\samples\ABTS-2.png"
+    image_path = r"samples\ABTS-2.png"
     display_image_and_histogram(image_path)
