@@ -37,7 +37,8 @@ class MainWindow(QMainWindow):
         
         # 设置并显示开屏默认背景及标题
         background = cv2.imread(r'resources\icons\img2.jpg')
-        title = '微孔板阵列定量比色系统'
+        # title = '微孔板阵列定量比色系统'
+        title = 'Microplate colorimetric system'
         font = r'resources\fonts\程荣光刻楷.ttf'
         font_size = 160
         color = (0, 0, 0)

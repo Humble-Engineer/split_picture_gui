@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'MainWindow.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.1
+## Created by: Qt User Interface Compiler version 6.9.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -348,21 +348,21 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"BioColor AI", None))
         self.result_img.setText("")
-        self.load_button.setText(QCoreApplication.translate("MainWindow", u"\u52a0\u8f7d\u56fe\u50cf", None))
-        self.reset_button.setText(QCoreApplication.translate("MainWindow", u"\u6062\u590d\u539f\u56fe", None))
-        self.capture_button.setText(QCoreApplication.translate("MainWindow", u"\u76f8\u673a\u6355\u83b7", None))
-        self.label_14.setText(QCoreApplication.translate("MainWindow", u"\u56fe\u50cf\u64cd\u4f5c", None))
-        self.save_button.setText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58\u56fe\u50cf", None))
-        self.label_10.setText(QCoreApplication.translate("MainWindow", u"\u5206\u5272\u53c2\u6570", None))
-        self.rows_label_2.setText(QCoreApplication.translate("MainWindow", u"\u5206\u5272\u884c\u6570\uff1a", None))
+        self.load_button.setText(QCoreApplication.translate("MainWindow", u"Load IMG", None))
+        self.reset_button.setText(QCoreApplication.translate("MainWindow", u"Restore IMG", None))
+        self.capture_button.setText(QCoreApplication.translate("MainWindow", u"Capture IMG", None))
+        self.label_14.setText(QCoreApplication.translate("MainWindow", u"manipulation", None))
+        self.save_button.setText(QCoreApplication.translate("MainWindow", u"Save IMG", None))
+        self.label_10.setText(QCoreApplication.translate("MainWindow", u"arguments", None))
+        self.rows_label_2.setText(QCoreApplication.translate("MainWindow", u"row\uff1a", None))
         self.rows_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.cols_label_2.setText(QCoreApplication.translate("MainWindow", u"\u5206\u5272\u5217\u6570\uff1a", None))
+        self.cols_label_2.setText(QCoreApplication.translate("MainWindow", u"col:", None))
         self.cols_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.r_label_2.setText(QCoreApplication.translate("MainWindow", u"\u91c7\u6837\u534a\u5f84\uff1a", None))
+        self.r_label_2.setText(QCoreApplication.translate("MainWindow", u"radius:", None))
         self.r_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.r_label_3.setText(QCoreApplication.translate("MainWindow", u"\u6709\u6548\u6570\u5b57\uff1a", None))
+        self.r_label_3.setText(QCoreApplication.translate("MainWindow", u"accuracy:", None))
         self.precision_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.default_button.setText(QCoreApplication.translate("MainWindow", u"\u9ed8\u8ba4\u53c2\u6570", None))
-        self.count_button.setText(QCoreApplication.translate("MainWindow", u"\u5f00\u59cb\u8ba1\u7b97", None))
+        self.default_button.setText(QCoreApplication.translate("MainWindow", u"default", None))
+        self.count_button.setText(QCoreApplication.translate("MainWindow", u"Start", None))
     # retranslateUi
 

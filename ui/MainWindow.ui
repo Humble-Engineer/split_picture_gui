@@ -115,7 +115,7 @@
          </font>
         </property>
         <property name="text">
-         <string>加载图像</string>
+         <string>Load IMG</string>
         </property>
        </widget>
       </item>
@@ -148,7 +148,7 @@
          </font>
         </property>
         <property name="text">
-         <string>恢复原图</string>
+         <string>Restore IMG</string>
         </property>
        </widget>
       </item>
@@ -185,7 +185,7 @@
          </font>
         </property>
         <property name="text">
-         <string>相机捕获</string>
+         <string>Capture IMG</string>
         </property>
        </widget>
       </item>
@@ -217,7 +217,7 @@
          </font>
         </property>
         <property name="text">
-         <string>图像操作</string>
+         <string>manipulation</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -253,7 +253,7 @@
          </font>
         </property>
         <property name="text">
-         <string>保存图像</string>
+         <string>Save IMG</string>
         </property>
        </widget>
       </item>
@@ -295,7 +295,7 @@
          </font>
         </property>
         <property name="text">
-         <string>分割参数</string>
+         <string>arguments</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -313,7 +313,7 @@
            </size>
           </property>
           <property name="text">
-           <string>分割行数：</string>
+           <string>row：</string>
           </property>
          </widget>
         </item>
@@ -389,7 +389,7 @@
            </size>
           </property>
           <property name="text">
-           <string>分割列数：</string>
+           <string>col:</string>
           </property>
          </widget>
         </item>
@@ -465,7 +465,7 @@
            </size>
           </property>
           <property name="text">
-           <string>采样半径：</string>
+           <string>radius:</string>
           </property>
          </widget>
         </item>
@@ -547,7 +547,7 @@
            </size>
           </property>
           <property name="text">
-           <string>有效数字：</string>
+           <string>accuracy:</string>
           </property>
          </widget>
         </item>
@@ -648,7 +648,7 @@
          </font>
         </property>
         <property name="text">
-         <string>默认参数</string>
+         <string>default</string>
         </property>
        </widget>
       </item>
@@ -697,7 +697,7 @@
          </font>
         </property>
         <property name="text">
-         <string>开始计算</string>
+         <string>Start</string>
         </property>
        </widget>
       </item>
