@@ -108,7 +108,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>12</pointsize>
+          <pointsize>20</pointsize>
           <italic>false</italic>
           <bold>true</bold>
           <underline>false</underline>
@@ -147,7 +147,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>12</pointsize>
+          <pointsize>20</pointsize>
           <italic>false</italic>
           <bold>true</bold>
           <underline>false</underline>
@@ -183,7 +183,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>12</pointsize>
+          <pointsize>20</pointsize>
           <italic>false</italic>
           <bold>true</bold>
           <underline>false</underline>
@@ -217,7 +217,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>16</pointsize>
+          <pointsize>25</pointsize>
           <italic>false</italic>
           <bold>true</bold>
          </font>
@@ -252,7 +252,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>12</pointsize>
+          <pointsize>20</pointsize>
           <italic>false</italic>
           <bold>true</bold>
           <underline>false</underline>
@@ -295,7 +295,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>16</pointsize>
+          <pointsize>25</pointsize>
           <italic>false</italic>
           <bold>true</bold>
          </font>
@@ -320,11 +320,11 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>16</pointsize>
            </font>
           </property>
           <property name="text">
-           <string>Row：</string>
+           <string>Row:</string>
           </property>
          </widget>
         </item>
@@ -401,7 +401,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>16</pointsize>
            </font>
           </property>
           <property name="text">
@@ -482,7 +482,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>15</pointsize>
            </font>
           </property>
           <property name="text">
@@ -569,7 +569,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>13</pointsize>
            </font>
           </property>
           <property name="text">
@@ -667,7 +667,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>18</pointsize>
+          <pointsize>25</pointsize>
           <italic>false</italic>
           <bold>true</bold>
           <underline>false</underline>
@@ -716,7 +716,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>18</pointsize>
+          <pointsize>25</pointsize>
           <italic>false</italic>
           <bold>true</bold>
           <underline>false</underline>
