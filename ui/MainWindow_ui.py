@@ -68,11 +68,12 @@ class Ui_MainWindow(object):
         self.load_button.setMinimumSize(QSize(90, 50))
         self.load_button.setMaximumSize(QSize(9999999, 16777215))
         font1 = QFont()
-        font1.setPointSize(8)
+        font1.setPointSize(12)
         font1.setBold(True)
         font1.setItalic(False)
         font1.setUnderline(False)
         self.load_button.setFont(font1)
+        self.load_button.setIconSize(QSize(16, 16))
 
         self.gridLayout_2.addWidget(self.load_button, 1, 0, 1, 1)
 
@@ -94,7 +95,7 @@ class Ui_MainWindow(object):
         self.capture_button.setMinimumSize(QSize(90, 50))
         self.capture_button.setMaximumSize(QSize(9999999, 16777215))
         font2 = QFont()
-        font2.setPointSize(8)
+        font2.setPointSize(12)
         font2.setBold(True)
         font2.setItalic(False)
         font2.setUnderline(False)
@@ -111,9 +112,9 @@ class Ui_MainWindow(object):
         sizePolicy3.setHeightForWidth(self.label_14.sizePolicy().hasHeightForWidth())
         self.label_14.setSizePolicy(sizePolicy3)
         self.label_14.setMinimumSize(QSize(0, 0))
-        self.label_14.setMaximumSize(QSize(285, 25))
+        self.label_14.setMaximumSize(QSize(285, 40))
         font3 = QFont()
-        font3.setPointSize(15)
+        font3.setPointSize(16)
         font3.setBold(True)
         font3.setItalic(False)
         self.label_14.setFont(font3)
@@ -143,7 +144,7 @@ class Ui_MainWindow(object):
         sizePolicy3.setHeightForWidth(self.label_10.sizePolicy().hasHeightForWidth())
         self.label_10.setSizePolicy(sizePolicy3)
         self.label_10.setMinimumSize(QSize(0, 0))
-        self.label_10.setMaximumSize(QSize(285, 25))
+        self.label_10.setMaximumSize(QSize(285, 40))
         self.label_10.setFont(font3)
         self.label_10.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
@@ -153,7 +154,10 @@ class Ui_MainWindow(object):
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.rows_label_2 = QLabel(self.centralwidget)
         self.rows_label_2.setObjectName(u"rows_label_2")
-        self.rows_label_2.setMaximumSize(QSize(78, 53))
+        self.rows_label_2.setMaximumSize(QSize(100, 100))
+        font4 = QFont()
+        font4.setPointSize(12)
+        self.rows_label_2.setFont(font4)
 
         self.horizontalLayout_9.addWidget(self.rows_label_2)
 
@@ -194,6 +198,7 @@ class Ui_MainWindow(object):
         self.cols_label_2 = QLabel(self.centralwidget)
         self.cols_label_2.setObjectName(u"cols_label_2")
         self.cols_label_2.setMaximumSize(QSize(78, 52))
+        self.cols_label_2.setFont(font4)
 
         self.horizontalLayout_10.addWidget(self.cols_label_2)
 
@@ -228,6 +233,7 @@ class Ui_MainWindow(object):
         self.r_label_2 = QLabel(self.centralwidget)
         self.r_label_2.setObjectName(u"r_label_2")
         self.r_label_2.setMaximumSize(QSize(77, 53))
+        self.r_label_2.setFont(font4)
 
         self.horizontalLayout_11.addWidget(self.r_label_2)
 
@@ -268,6 +274,7 @@ class Ui_MainWindow(object):
         self.r_label_3 = QLabel(self.centralwidget)
         self.r_label_3.setObjectName(u"r_label_3")
         self.r_label_3.setMaximumSize(QSize(77, 53))
+        self.r_label_3.setFont(font4)
 
         self.horizontalLayout_12.addWidget(self.r_label_3)
 
@@ -309,12 +316,12 @@ class Ui_MainWindow(object):
         self.default_button.setSizePolicy(sizePolicy2)
         self.default_button.setMinimumSize(QSize(90, 50))
         self.default_button.setMaximumSize(QSize(16777215, 16777215))
-        font4 = QFont()
-        font4.setPointSize(12)
-        font4.setBold(True)
-        font4.setItalic(False)
-        font4.setUnderline(False)
-        self.default_button.setFont(font4)
+        font5 = QFont()
+        font5.setPointSize(18)
+        font5.setBold(True)
+        font5.setItalic(False)
+        font5.setUnderline(False)
+        self.default_button.setFont(font5)
 
         self.verticalLayout.addWidget(self.default_button)
 
@@ -331,7 +338,7 @@ class Ui_MainWindow(object):
         self.count_button.setSizePolicy(sizePolicy2)
         self.count_button.setMinimumSize(QSize(90, 50))
         self.count_button.setMaximumSize(QSize(16777215, 16777215))
-        self.count_button.setFont(font4)
+        self.count_button.setFont(font5)
 
         self.verticalLayout.addWidget(self.count_button)
 
@@ -351,18 +358,18 @@ class Ui_MainWindow(object):
         self.load_button.setText(QCoreApplication.translate("MainWindow", u"Load IMG", None))
         self.reset_button.setText(QCoreApplication.translate("MainWindow", u"Restore IMG", None))
         self.capture_button.setText(QCoreApplication.translate("MainWindow", u"Capture IMG", None))
-        self.label_14.setText(QCoreApplication.translate("MainWindow", u"manipulation", None))
+        self.label_14.setText(QCoreApplication.translate("MainWindow", u"Manipulation", None))
         self.save_button.setText(QCoreApplication.translate("MainWindow", u"Save IMG", None))
-        self.label_10.setText(QCoreApplication.translate("MainWindow", u"arguments", None))
-        self.rows_label_2.setText(QCoreApplication.translate("MainWindow", u"row\uff1a", None))
+        self.label_10.setText(QCoreApplication.translate("MainWindow", u"Arguments", None))
+        self.rows_label_2.setText(QCoreApplication.translate("MainWindow", u"Row\uff1a", None))
         self.rows_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.cols_label_2.setText(QCoreApplication.translate("MainWindow", u"col:", None))
+        self.cols_label_2.setText(QCoreApplication.translate("MainWindow", u"Col:", None))
         self.cols_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.r_label_2.setText(QCoreApplication.translate("MainWindow", u"radius:", None))
+        self.r_label_2.setText(QCoreApplication.translate("MainWindow", u"Radius:", None))
         self.r_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.r_label_3.setText(QCoreApplication.translate("MainWindow", u"accuracy:", None))
+        self.r_label_3.setText(QCoreApplication.translate("MainWindow", u"Accuracy:", None))
         self.precision_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.default_button.setText(QCoreApplication.translate("MainWindow", u"default", None))
+        self.default_button.setText(QCoreApplication.translate("MainWindow", u"Default", None))
         self.count_button.setText(QCoreApplication.translate("MainWindow", u"Start", None))
     # retranslateUi
 

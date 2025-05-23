@@ -108,7 +108,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>8</pointsize>
+          <pointsize>12</pointsize>
           <italic>false</italic>
           <bold>true</bold>
           <underline>false</underline>
@@ -116,6 +116,12 @@
         </property>
         <property name="text">
          <string>Load IMG</string>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>16</width>
+          <height>16</height>
+         </size>
         </property>
        </widget>
       </item>
@@ -141,7 +147,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>8</pointsize>
+          <pointsize>12</pointsize>
           <italic>false</italic>
           <bold>true</bold>
           <underline>false</underline>
@@ -177,7 +183,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>8</pointsize>
+          <pointsize>12</pointsize>
           <italic>false</italic>
           <bold>true</bold>
           <underline>false</underline>
@@ -206,18 +212,18 @@
         <property name="maximumSize">
          <size>
           <width>285</width>
-          <height>25</height>
+          <height>40</height>
          </size>
         </property>
         <property name="font">
          <font>
-          <pointsize>15</pointsize>
+          <pointsize>16</pointsize>
           <italic>false</italic>
           <bold>true</bold>
          </font>
         </property>
         <property name="text">
-         <string>manipulation</string>
+         <string>Manipulation</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -246,7 +252,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>8</pointsize>
+          <pointsize>12</pointsize>
           <italic>false</italic>
           <bold>true</bold>
           <underline>false</underline>
@@ -284,18 +290,18 @@
         <property name="maximumSize">
          <size>
           <width>285</width>
-          <height>25</height>
+          <height>40</height>
          </size>
         </property>
         <property name="font">
          <font>
-          <pointsize>15</pointsize>
+          <pointsize>16</pointsize>
           <italic>false</italic>
           <bold>true</bold>
          </font>
         </property>
         <property name="text">
-         <string>arguments</string>
+         <string>Arguments</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -308,12 +314,17 @@
          <widget class="QLabel" name="rows_label_2">
           <property name="maximumSize">
            <size>
-            <width>78</width>
-            <height>53</height>
+            <width>100</width>
+            <height>100</height>
            </size>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>row：</string>
+           <string>Row：</string>
           </property>
          </widget>
         </item>
@@ -388,8 +399,13 @@
             <height>52</height>
            </size>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>col:</string>
+           <string>Col:</string>
           </property>
          </widget>
         </item>
@@ -464,8 +480,13 @@
             <height>53</height>
            </size>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>radius:</string>
+           <string>Radius:</string>
           </property>
          </widget>
         </item>
@@ -546,8 +567,13 @@
             <height>53</height>
            </size>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>accuracy:</string>
+           <string>Accuracy:</string>
           </property>
          </widget>
         </item>
@@ -641,14 +667,14 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>12</pointsize>
+          <pointsize>18</pointsize>
           <italic>false</italic>
           <bold>true</bold>
           <underline>false</underline>
          </font>
         </property>
         <property name="text">
-         <string>default</string>
+         <string>Default</string>
         </property>
        </widget>
       </item>
@@ -690,7 +716,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>12</pointsize>
+          <pointsize>18</pointsize>
           <italic>false</italic>
           <bold>true</bold>
           <underline>false</underline>
