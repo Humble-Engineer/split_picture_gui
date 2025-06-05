@@ -1,4 +1,3 @@
-
 from ui.MainWindow_ui import Ui_MainWindow
 from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtGui import QIcon
@@ -36,9 +35,9 @@ class MainWindow(QMainWindow):
         self.slot_bind()  # 绑定槽函数
         
         # 设置并显示开屏默认背景及标题
-        background = cv2.imread(r'resources\icons\img2.jpg')
+        background = cv2.imread('resources/icons/img2.jpg')
         title = '微孔板阵列定量比色系统'
-        font = r'resources\fonts\程荣光刻楷.ttf'
+        font = 'resources/fonts/程荣光刻楷.ttf'
         font_size = 160
         color = (0, 0, 0)
         screen = self.basic.put_chinese_text(
@@ -107,7 +106,7 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     # 创建 QApplication 实例
     app = QApplication(sys.argv)
-    icon = r'resources\icons\split.png'
+    icon = 'resources/icons/split.png'
     app.setWindowIcon(QIcon(icon))
 
     # 创建主窗口并显示
