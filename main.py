@@ -36,10 +36,10 @@ class MainWindow(QMainWindow):
         self.slot_bind()  # 绑定槽函数
         
         # 设置并显示开屏默认背景及标题
-        background = cv2.imread('resources/icons/img2.jpg')
+        background = cv2.imread('resources/icons/img4.jpeg')
         title = '微孔板阵列定量比色系统'
         font = os.path.join('resources', 'fonts', '程荣光刻楷.ttf')
-        font_size = 160
+        font_size = 80
         color = (0, 0, 0)
         screen = self.basic.put_chinese_text(
             background, title, font, font_size, color)

@@ -7,4 +7,6 @@ dist*/
 outputs/
 data*/
 
+*.DS_Store
+
 
