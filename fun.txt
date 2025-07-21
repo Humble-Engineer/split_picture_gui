@@ -1,0 +1,5 @@
+
+# y（灰度），x（浓度）之间的表达式
+# y = 5.803*In(x) + 0.473
+density = np.exp((delta_gray-0.473)/5.803)
+text = f"{density:.3e}"
