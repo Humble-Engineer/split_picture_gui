@@ -106,12 +106,22 @@ class Algorithm:
             density = np.exp((gray_diff - 0.473) / 5.803)
 
             # 构建多行文本
+            if density >= 1:
+                # 对于大于等于1的数，使用10^x形式
+                exp = int(np.floor(np.log10(density)))
+                mantissa = density / (10 ** exp)
+                density_str = f"{mantissa:.{self.precision}f}x10^{exp}"
+            else:
+                # 对于小于1的数，也使用类似形式
+                exp = int(np.floor(np.log10(density)))
+                mantissa = density / (10 ** exp)
+                density_str = f"{mantissa:.{self.precision}f}x10^{exp}"
+
             text_lines = [
                 f"Avg: {avg_gray:.{self.precision}g}",
                 f"Diff: {gray_diff:.{self.precision}g}",
-                f"Density: {density:.{self.precision}e}"
+                f"Density: {density_str}"
             ]
-
             # ========== 子图文本绘制 ==========
             font = cv2.FONT_HERSHEY_SIMPLEX
             thickness = 1
