@@ -9,6 +9,7 @@ class Algorithm:
         self.image_path = None
         self.data = []
 
+
         if main_window is not None:
             self.main_window = main_window
             self.rows = self.main_window.rows
@@ -20,6 +21,14 @@ class Algorithm:
             self.cols = 6
             self.r = 0.2
             self.precision = 4
+
+        # 拟合标准曲线（拉格朗日插值法）
+        x = np.array([3.3, 12.33, 20.20, 45, 57.73, 64.67])
+        y = np.array([0, 1, 2, 3, 4, 5])
+
+        # 拟合标准曲线（最后的参数为需要拟合的次数）
+        self.coefficients = np.polyfit(x, y, 5)
+        print(self.coefficients)
 
     def count(self, main_window=None):
         # 初始化参数
@@ -103,13 +112,33 @@ class Algorithm:
             gray_diff = max_gray - avg_gray
 
             # y（灰度），x（浓度）之间的表达式
-            density = np.exp((gray_diff - 0.473) / 5.803)
+            # density = np.exp((gray_diff - 0.473) / 5.803)
+
+            if gray_diff !=  0:
+                density = 10**np.polyval(self.coefficients, gray_diff)
+            else:
+                density = 0
+
+            print(f"相对灰度：{gray_diff}，预测浓度：{density:.2f}")
 
             # 构建多行文本
+            import math
+
+            # 将density转换为 a*10^b 的形式
+            if density > 0:
+                exponent = math.floor(math.log10(density))
+                mantissa = density / (10 ** exponent)
+                if exponent == 0:
+                    density_str = f"{mantissa:.{self.precision-1}g}"
+                else:
+                    density_str = f"{mantissa:.{self.precision-1}g}*10^{exponent}"
+            else:
+                density_str = "0"
+
             text_lines = [
                 f"Avg: {avg_gray:.{self.precision}g}",
                 f"Diff: {gray_diff:.{self.precision}g}",
-                f"Density: {density:.{self.precision}e}"
+                f"Density: {density_str}"
             ]
 
             # ========== 子图文本绘制 ==========
