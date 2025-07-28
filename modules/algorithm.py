@@ -28,7 +28,20 @@ class Algorithm:
 
         # 拟合标准曲线（最后的参数为需要拟合的次数）
         self.coefficients = np.polyfit(x, y, 5)
-        print(self.coefficients)
+        # 格式化系数，保留三位有效数字
+        coeffs_formatted = [f"{coef:.3g}" for coef in self.coefficients]
+        print("P(x) = ", end="")
+        terms = []
+        for i, coef in enumerate(coeffs_formatted):
+            power = 5 - i
+            if power == 0:
+                terms.append(f"{coef}")
+            elif power == 1:
+                terms.append(f"{coef}*x")
+            else:
+                terms.append(f"{coef}*x^{power}")
+            
+        print(" + ".join(terms).replace("+ -", "- "))
 
     def count(self, main_window=None):
         # 初始化参数
