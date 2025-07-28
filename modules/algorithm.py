@@ -140,7 +140,6 @@ class Algorithm:
                 f"Diff: {gray_diff:.{self.precision}g}",
                 f"Density: {density_str}"
             ]
-
             # ========== 子图文本绘制 ==========
             font = cv2.FONT_HERSHEY_SIMPLEX
             thickness = 1
