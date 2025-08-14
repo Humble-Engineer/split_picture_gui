@@ -1,12 +1,26 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-
 a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[],
-    hiddenimports=[],
+    datas=[
+        ('ui', 'ui'),  # 包含UI文件
+        ('resources', 'resources'),  # 包含资源文件
+        ('modules', 'modules'),  # 包含模块文件
+    ],
+    hiddenimports=[
+        'PySide6',
+        'PySide6.QtCore',
+        'PySide6.QtGui',
+        'PySide6.QtWidgets',
+        'PySide6.QtUiTools',
+        'cv2',
+        'numpy',
+        'openpyxl',
+        'datetime',
+        'os'
+    ],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -20,6 +34,7 @@ exe = EXE(
     pyz,
     a.scripts,
     a.binaries,
+    a.zipfiles,
     a.datas,
     [],
     name='main',

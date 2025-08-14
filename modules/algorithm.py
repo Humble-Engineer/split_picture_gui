@@ -6,9 +6,11 @@ import datetime
 
 class Algorithm:
     def __init__(self, main_window=None):
+
         self.image_path = None
         self.data = []
-
+        self.RNA_type = None
+        self.coefficients = None
 
         if main_window is not None:
             self.main_window = main_window
@@ -16,18 +18,39 @@ class Algorithm:
             self.cols = self.main_window.cols
             self.r = self.main_window.r
             self.precision = self.main_window.precision
+
+            self.argu_update_rna_type()
+
         else:
             self.rows = 4
             self.cols = 6
             self.r = 0.2
             self.precision = 4
+    def argu_update_rna_type(self):
 
-        # 拟合标准曲线（拉格朗日插值法）
-        x = np.array([3.3, 12.33, 20.20, 45, 57.73, 64.67])
-        y = np.array([0, 1, 2, 3, 4, 5])
+        try:
+            if hasattr(self.main_window.ui, 'type_Box'):
+                self.RNA_type = self.main_window.ui.type_Box.currentText()
+            else:
+                raise AttributeError("UI中不存在'type_Box'控件")
+        except Exception as e:
+            print(f"错误: {e}")
+            
+        if self.RNA_type == 'miR-223':
+            x = np.array([3.3, 12.33, 20.20, 45, 57.73, 64.67])
+            y = np.array([0, 1, 2, 3, 4, 5])
+        elif self.RNA_type == 'miR-935':
+            x = np.array([1.8, 12.3, 31.5, 50.7, 60, 66.1])
+            y = np.array([0, 1, 2, 3, 4, 5])
+        elif self.RNA_type == 'miR-2284W':
+            x = np.array([1.8, 17.27, 18.24, 52, 50.4, 60.5])
+            y = np.array([0, 1, 2, 3, 4, 5])
 
+        print(self.RNA_type)
+        
         # 拟合标准曲线（最后的参数为需要拟合的次数）
         self.coefficients = np.polyfit(x, y, 5)
+
         # 格式化系数，保留三位有效数字
         coeffs_formatted = [f"{coef:.3g}" for coef in self.coefficients]
         print("P(x) = ", end="")
@@ -42,7 +65,6 @@ class Algorithm:
                 terms.append(f"{coef}*x^{power}")
             
         print(" + ".join(terms).replace("+ -", "- "))
-
     def count(self, main_window=None):
         # 初始化参数
         if main_window is not None:

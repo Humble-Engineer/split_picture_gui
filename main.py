@@ -73,6 +73,7 @@ class MainWindow(QMainWindow):
         self.precision = self.ui.precision_Slider.value()
         self.ui.precision_label.setText(str(self.precision))
 
+
     def slot_bind(self):
         """
         绑定按钮或菜单项的点击事件到相应的函数。
@@ -103,6 +104,8 @@ class MainWindow(QMainWindow):
         self.ui.precision_Slider.sliderReleased.connect(self.argu_update_precision)
         self.ui.precision_Slider.sliderMoved.connect(self.argu_update_precision)
         self.ui.precision_Slider.valueChanged.connect(self.argu_update_precision)
+
+        self.ui.type_Box.currentIndexChanged.connect(self.algorithm.argu_update_rna_type)
 
 if __name__ == "__main__":
     # 创建 QApplication 实例
