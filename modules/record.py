@@ -11,7 +11,7 @@ class DataHandler:
         self.record_mode = False
 
         self.main_window = main_window
-        self.data_dir = 'data'
+        self.data_dir = 'outputs'
         self.ensure_data_directory()
         
     def change_record_mode(self):

@@ -2,8 +2,10 @@ from ui.MainWindow_ui import Ui_MainWindow
 from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtGui import QIcon
 
-import sys, cv2
+import sys
+import cv2
 import os
+import numpy as np
 
 from modules.basic import Basic
 # from modules.camera import Camera
