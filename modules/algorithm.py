@@ -27,7 +27,89 @@ class Algorithm:
             self.cols = 6
             self.r = 0.2
             self.precision = 4
-
+    def save_detection_data(self, output_dir, original_image_path):
+        """
+        保存检测参数和原始图片到输出文件夹，并生成记录参数的Excel表格
+        """
+        # 创建输出目录
+        os.makedirs(output_dir, exist_ok=True)
+        cv2.imwrite(os.path.join(output_dir, 'origin_img.jpg'), self.main_window.origin_img)
+        
+        # 生成参数信息
+        try:
+            from openpyxl import Workbook
+            from openpyxl.styles import Font, Alignment
+            
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "检测参数"
+            
+            # 创建居中对齐样式
+            center_alignment = Alignment(horizontal="center", vertical="center")
+            bold_font = Font(bold=True)
+            
+            # 写入参数信息
+            ws.column_dimensions['A'].width = 15
+            ws.column_dimensions['B'].width = 100
+            
+            # 标题行
+            ws.cell(row=1, column=1, value="参数名称").font = bold_font
+            ws.cell(row=1, column=1).alignment = center_alignment
+            ws.cell(row=1, column=2, value="参数值").font = bold_font
+            ws.cell(row=1, column=2).alignment = center_alignment
+            
+            # 写入具体参数
+            row_index = 2
+            
+            # 行列数参数
+            ws.cell(row=row_index, column=1, value="行数").alignment = center_alignment
+            ws.cell(row=row_index, column=2, value=self.rows).alignment = center_alignment
+            row_index += 1
+            
+            ws.cell(row=row_index, column=1, value="列数").alignment = center_alignment
+            ws.cell(row=row_index, column=2, value=self.cols).alignment = center_alignment
+            row_index += 1
+            
+            ws.cell(row=row_index, column=1, value="半径").alignment = center_alignment
+            ws.cell(row=row_index, column=2, value=self.r).alignment = center_alignment
+            row_index += 1
+            
+            ws.cell(row=row_index, column=1, value="精度").alignment = center_alignment
+            ws.cell(row=row_index, column=2, value=self.precision).alignment = center_alignment
+            row_index += 1
+            
+            # RNA类型和拟合曲线
+            ws.cell(row=row_index, column=1, value="类型").alignment = center_alignment
+            ws.cell(row=row_index, column=2, value=self.RNA_type if self.RNA_type else "未指定").alignment = center_alignment
+            row_index += 1
+            
+            # 生成拟合曲线表达式
+            if hasattr(self, 'coefficients') and self.coefficients is not None:
+                # 格式化系数，保留三位有效数字
+                coeffs_formatted = [f"{coef:.3g}" for coef in self.coefficients]
+                terms = []
+                for i, coef in enumerate(coeffs_formatted):
+                    power = len(coeffs_formatted) - 1 - i
+                    if power == 0:
+                        terms.append(f"{coef}")
+                    elif power == 1:
+                        terms.append(f"{coef}*x")
+                    else:
+                        terms.append(f"{coef}*x^{power}")
+                
+                expression = "P(x) = " + " + ".join(terms).replace("+ -", "- ")
+            else:
+                expression = "未生成拟合曲线"
+                
+            ws.cell(row=row_index, column=1, value="曲线").alignment = center_alignment
+            ws.cell(row=row_index, column=2, value=expression).alignment = center_alignment
+            
+            # 保存Excel文件
+            wb.save(os.path.join(output_dir, 'parameters.xlsx'))
+            print(f"检测参数已保存至: {os.path.join(output_dir, 'parameters.xlsx')}")
+            
+        except Exception as e:
+            print(f"保存检测参数失败: {str(e)}")
     def save_results(self, output_dir, stitched_img, sub_image_info):
         """
         保存处理结果，包括图片和Excel数据
@@ -53,7 +135,7 @@ class Algorithm:
             center_alignment = Alignment(horizontal="center", vertical="center")
             
             # 写入表头
-            headers = ['行', '列', '原始灰度值', '相对灰度值', '预测浓度', 'lg(浓度)', '原始子图']
+            headers = ['行号', '列号', '原始灰度', '相对灰度', '预测浓度', 'lg(浓度)', '原始子图']
             for col, header in enumerate(headers, 1):
                 cell = ws1.cell(row=1, column=col, value=header)
                 cell.font = Font(bold=True)
@@ -101,12 +183,12 @@ class Algorithm:
                     ws1.add_image(img)
 
             # 设置列宽
-            ws1.column_dimensions['A'].width = 5   # "行"列宽为5字符
-            ws1.column_dimensions['B'].width = 5   # "列"列宽为5字符
-            ws1.column_dimensions['C'].width = 12  # "原始灰度值"列宽为12字符
-            ws1.column_dimensions['D'].width = 12  # "相对灰度值"列宽为12字符
-            ws1.column_dimensions['E'].width = 15  # "预测浓度"列宽为15字符
-            ws1.column_dimensions['F'].width = 12  # "log10(浓度)"列宽为12字符
+            ws1.column_dimensions['A'].width = 8   # "行号"列宽为5字符
+            ws1.column_dimensions['B'].width = 8   # "列号"列宽为5字符
+            ws1.column_dimensions['C'].width = 12  # "原始灰度"列宽为12字符
+            ws1.column_dimensions['D'].width = 12  # "相对灰度"列宽为12字符
+            ws1.column_dimensions['E'].width = 16  # "预测浓度"列宽为15字符
+            ws1.column_dimensions['F'].width = 16  # "log10(浓度)"列宽为12字符
             ws1.column_dimensions['G'].width = 12  # "原始子图"列宽为12字符
             
             # 设置行高
@@ -122,6 +204,32 @@ class Algorithm:
         # 关闭预览窗口
         if hasattr(self, 'preview_window'):
             self.preview_window.close()
+            
+        # 询问是否打开输出目录
+        try:
+            from PySide6.QtWidgets import QMessageBox
+            msg_box = QMessageBox()
+            msg_box.setWindowTitle("保存完成")
+            msg_box.setText("结果已保存成功！")
+            msg_box.setInformativeText("是否要打开输出目录？")
+            msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+            msg_box.setDefaultButton(QMessageBox.Yes)
+            
+            result = msg_box.exec()
+            if result == QMessageBox.Yes:
+                # 打开目录
+                import subprocess
+                import platform
+                system = platform.system()
+                if system == "Windows":
+                    subprocess.Popen(f'explorer "{os.path.abspath(output_dir)}"')
+                elif system == "Darwin":  # macOS
+                    subprocess.Popen(["open", os.path.abspath(output_dir)])
+                else:  # Linux
+                    subprocess.Popen(["xdg-open", os.path.abspath(output_dir)])
+        except Exception as e:
+            print(f"打开目录时出错: {e}")
+
 
     def argu_update_rna_type(self):
 
@@ -441,17 +549,18 @@ class Algorithm:
                 info_label.setAlignment(Qt.AlignCenter)
                 info_label.setWordWrap(True)
                 layout.addWidget(info_label)
-                
+
                 # 添加按钮布局
                 button_layout = QHBoxLayout()
                 
                 # 确认保存按钮
                 save_button = QPushButton("保存")
-                save_button.clicked.connect(lambda: self.save_results(output_dir, stitched_img, sub_image_info))
+                save_button.clicked.connect(lambda: [self.save_detection_data(output_dir, self.image_path), self.save_results(output_dir, stitched_img, sub_image_info)])
                 
                 # 取消按钮
                 cancel_button = QPushButton("取消")
                 cancel_button.clicked.connect(preview_window.close)
+
                 
                 button_layout.addWidget(save_button)
                 button_layout.addWidget(cancel_button)
