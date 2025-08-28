@@ -4,6 +4,7 @@ import os
 import datetime
 
 
+
 class Algorithm:
     def __init__(self, main_window=None):
 
@@ -26,6 +27,102 @@ class Algorithm:
             self.cols = 6
             self.r = 0.2
             self.precision = 4
+
+    def save_results(self, output_dir, stitched_img, sub_image_info):
+        """
+        保存处理结果，包括图片和Excel数据
+        """
+        os.makedirs(output_dir, exist_ok=True)
+        cv2.imwrite(os.path.join(output_dir, 'result_img.jpg'), stitched_img)
+        
+        try:
+            from openpyxl import Workbook
+            from openpyxl.styles import Font, Alignment
+            from openpyxl.drawing.image import Image as XLImage
+            from PIL import Image
+            import io
+            import math
+            
+            wb = Workbook()
+            
+            # 创建一个包含所有数据的工作表
+            ws1 = wb.active
+            ws1.title = "详细检测数据"
+            
+            # 创建居中对齐样式
+            center_alignment = Alignment(horizontal="center", vertical="center")
+            
+            # 写入表头
+            headers = ['行', '列', '原始灰度值', '相对灰度值', '预测浓度', 'lg(浓度)', '原始子图']
+            for col, header in enumerate(headers, 1):
+                cell = ws1.cell(row=1, column=col, value=header)
+                cell.font = Font(bold=True)
+                cell.alignment = center_alignment
+            
+            # 写入详细数据 - 按照您的要求，按行优先顺序排列
+            for idx, info in enumerate(sub_image_info):
+                # 每一行的数据连续排列，然后换行
+                row = idx + 2  # 第一行是表头，所以数据从第二行开始
+                
+                # 计算log10(浓度)
+                density = info['density']
+                log_density = math.log10(density) if density > 0 else 0
+                
+                # 写入数据并居中对齐
+                ws1.cell(row=row, column=1, value=info['i'] + 1).alignment = center_alignment  # 行号（从1开始）
+                ws1.cell(row=row, column=2, value=info['j'] + 1).alignment = center_alignment  # 列号（从1开始）
+                ws1.cell(row=row, column=3, value=info['avg_gray']).alignment = center_alignment  # 原始灰度值
+                ws1.cell(row=row, column=4, value=info['gray_diff']).alignment = center_alignment  # 相对灰度值
+                ws1.cell(row=row, column=5, value=info['density']).alignment = center_alignment  # 预测浓度
+                ws1.cell(row=row, column=6, value=log_density).alignment = center_alignment  # log10(浓度)
+
+                # 插入子图
+                sub_image = info['sub_image']
+                if sub_image is not None:
+                    # 将OpenCV图像转换为PIL图像
+                    sub_image_rgb = cv2.cvtColor(sub_image, cv2.COLOR_BGR2RGB)
+                    pil_image = Image.fromarray(sub_image_rgb)
+                    
+                    # 将PIL图像保存到内存中的字节流
+                    image_stream = io.BytesIO()
+                    pil_image.save(image_stream, format='PNG')
+                    image_stream.seek(0)
+                    
+                    # 创建Excel图像对象
+                    img = XLImage(image_stream)
+                    
+                    # 调整图像大小
+                    img.width = 80
+                    img.height = 80
+                    
+                    # 插入图像到单元格
+                    # 使用标准方法添加图片到指定单元格
+                    img.anchor = f'G{row}'  # G列是原始子图列
+                    ws1.add_image(img)
+
+            # 设置列宽
+            ws1.column_dimensions['A'].width = 5   # "行"列宽为5字符
+            ws1.column_dimensions['B'].width = 5   # "列"列宽为5字符
+            ws1.column_dimensions['C'].width = 12  # "原始灰度值"列宽为12字符
+            ws1.column_dimensions['D'].width = 12  # "相对灰度值"列宽为12字符
+            ws1.column_dimensions['E'].width = 15  # "预测浓度"列宽为15字符
+            ws1.column_dimensions['F'].width = 12  # "log10(浓度)"列宽为12字符
+            ws1.column_dimensions['G'].width = 12  # "原始子图"列宽为12字符
+            
+            # 设置行高
+            ws1.row_dimensions[1].height = 30  # 第一行表头行高为30
+            for row in range(2, len(sub_image_info) + 2):  # 数据行
+                ws1.row_dimensions[row].height = 60  # 设置行高以便显示图像
+            
+            wb.save(os.path.join(output_dir, 'results.xlsx'))
+            print(f"Excel已保存至: {os.path.join(output_dir, 'results.xlsx')}")
+        except Exception as e:
+            print(f"Excel保存失败: {str(e)}")
+        
+        # 关闭预览窗口
+        if hasattr(self, 'preview_window'):
+            self.preview_window.close()
+
     def argu_update_rna_type(self):
 
         try:
@@ -154,7 +251,7 @@ class Algorithm:
             else:
                 density = 0
 
-            print(f"相对灰度：{gray_diff}，预测浓度：{density:.2f}")
+            # print(f"相对灰度：{gray_diff}，预测浓度：{density:.2f}")
 
             # 构建多行文本
             import math
@@ -175,6 +272,14 @@ class Algorithm:
                 f"Diff: {gray_diff:.{self.precision}g}",
                 f"Density: {density_str}"
             ]
+            
+            # 更新子图信息，添加相对灰度值和预测浓度
+            info.update({
+                'gray_diff': gray_diff,
+                'density': density,
+                'density_str': density_str
+            })
+
             # ========== 子图文本绘制 ==========
             font = cv2.FONT_HERSHEY_SIMPLEX
             thickness = 1
@@ -292,27 +397,74 @@ class Algorithm:
                 cv2.putText(image, line, (text_x, text_y),
                             font, text_scale, (0, 0, 255), int(thickness * 1.5), cv2.LINE_AA)
 
-        # ========== 结果保存和显示 ==========
-        timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
-        output_dir = os.path.join('outputs', timestamp)
-        os.makedirs(output_dir, exist_ok=True)
 
-        # 保存拼接图
-        cv2.imwrite(os.path.join(output_dir, 'result.jpg'), stitched_img)
-
-        # 生成Excel
-        try:
-            from openpyxl import Workbook
-            data = [info['avg_gray'] for info in sub_image_info]
-            data = np.array(data).reshape((self.rows, self.cols))
-            wb = Workbook()
-            ws = wb.active
-            for i in range(self.rows):
-                for j in range(self.cols):
-                    ws.cell(row=i + 1, column=j + 1, value=data[i][j])
-            wb.save(os.path.join(output_dir, 'data.xlsx'))
-        except Exception as e:
-            print(f"Excel保存失败: {str(e)}")
+            # ========== 结果保存和显示 ==========
+            timestamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
+            output_dir = os.path.join('outputs', timestamp)
+            
+            # 弹窗询问是否保存结果
+            try:
+                from PySide6.QtWidgets import QMessageBox, QLabel, QVBoxLayout, QWidget, QPushButton, QHBoxLayout
+                from PySide6.QtGui import QPixmap, QImage
+                from PySide6.QtCore import Qt
+                
+                # 创建预览窗口
+                preview_window = QWidget()
+                preview_window.setWindowTitle('结果预览')
+                preview_window.resize(800, 650)
+                
+                # 创建布局
+                layout = QVBoxLayout()
+                
+                # 创建标签用于显示图片
+                label = QLabel()
+                label.setAlignment(Qt.AlignCenter)
+                
+                # 转换拼接图像以进行预览
+                if stitched_img is not None:
+                    # 转换颜色格式 (OpenCV是BGR,需要转换为RGB)
+                    img_rgb = cv2.cvtColor(stitched_img, cv2.COLOR_BGR2RGB)
+                    
+                    # 转换为QImage
+                    h, w, ch = img_rgb.shape
+                    bytes_per_line = ch * w
+                    q_img = QImage(img_rgb.data, w, h, bytes_per_line, QImage.Format_RGB888)
+                    
+                    # 转换为QPixmap并适应窗口大小
+                    pixmap = QPixmap.fromImage(q_img)
+                    label.setPixmap(pixmap.scaled(780, 500, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+                
+                layout.addWidget(label)
+                
+                # 添加提示信息
+                info_label = QLabel("是否要保存结果？")
+                info_label.setAlignment(Qt.AlignCenter)
+                info_label.setWordWrap(True)
+                layout.addWidget(info_label)
+                
+                # 添加按钮布局
+                button_layout = QHBoxLayout()
+                
+                # 确认保存按钮
+                save_button = QPushButton("保存")
+                save_button.clicked.connect(lambda: self.save_results(output_dir, stitched_img, sub_image_info))
+                
+                # 取消按钮
+                cancel_button = QPushButton("取消")
+                cancel_button.clicked.connect(preview_window.close)
+                
+                button_layout.addWidget(save_button)
+                button_layout.addWidget(cancel_button)
+                
+                layout.addLayout(button_layout)
+                preview_window.setLayout(layout)
+                preview_window.show()
+                
+                # 保存窗口引用以防止被垃圾回收
+                self.preview_window = preview_window
+                
+            except Exception as e:
+                print(f"预览窗口创建失败: {e}")
 
         # 结果显示
         if self.image_path:
@@ -322,6 +474,7 @@ class Algorithm:
         else:
             self.main_window.result_img = image
             self.main_window.basic.display_image(image)
+# ... existing code ...
 
 
 if __name__ == '__main__':
