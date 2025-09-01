@@ -710,21 +710,28 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>120</width>
+            <width>140</width>
             <height>16777215</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>15</pointsize>
+            <italic>false</italic>
+            <bold>true</bold>
+           </font>
           </property>
           <property name="maxVisibleItems">
            <number>10</number>
           </property>
           <item>
            <property name="text">
-            <string>miR-485</string>
+            <string>miR-223</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>miR-223</string>
+            <string>miR-935</string>
            </property>
           </item>
           <item>

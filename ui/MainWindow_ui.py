@@ -341,7 +341,12 @@ class Ui_MainWindow(object):
         self.edge_Box.addItem("")
         self.edge_Box.setObjectName(u"edge_Box")
         self.edge_Box.setMinimumSize(QSize(0, 50))
-        self.edge_Box.setMaximumSize(QSize(120, 16777215))
+        self.edge_Box.setMaximumSize(QSize(140, 16777215))
+        font7 = QFont()
+        font7.setPointSize(15)
+        font7.setBold(True)
+        font7.setItalic(False)
+        self.edge_Box.setFont(font7)
         self.edge_Box.setMaxVisibleItems(10)
 
         self.horizontalLayout.addWidget(self.edge_Box)
@@ -360,12 +365,12 @@ class Ui_MainWindow(object):
         self.default_button.setSizePolicy(sizePolicy2)
         self.default_button.setMinimumSize(QSize(90, 50))
         self.default_button.setMaximumSize(QSize(16777215, 16777215))
-        font7 = QFont()
-        font7.setPointSize(25)
-        font7.setBold(True)
-        font7.setItalic(False)
-        font7.setUnderline(False)
-        self.default_button.setFont(font7)
+        font8 = QFont()
+        font8.setPointSize(25)
+        font8.setBold(True)
+        font8.setItalic(False)
+        font8.setUnderline(False)
+        self.default_button.setFont(font8)
 
         self.verticalLayout.addWidget(self.default_button)
 
@@ -382,7 +387,7 @@ class Ui_MainWindow(object):
         self.count_button.setSizePolicy(sizePolicy2)
         self.count_button.setMinimumSize(QSize(90, 50))
         self.count_button.setMaximumSize(QSize(16777215, 16777215))
-        self.count_button.setFont(font7)
+        self.count_button.setFont(font8)
 
         self.verticalLayout.addWidget(self.count_button)
 
@@ -415,8 +420,8 @@ class Ui_MainWindow(object):
         self.precision_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Fit curve", None))
         self.rows_label_3.setText(QCoreApplication.translate("MainWindow", u"RNA type\uff1a", None))
-        self.edge_Box.setItemText(0, QCoreApplication.translate("MainWindow", u"miR-485", None))
-        self.edge_Box.setItemText(1, QCoreApplication.translate("MainWindow", u"miR-223", None))
+        self.edge_Box.setItemText(0, QCoreApplication.translate("MainWindow", u"miR-223", None))
+        self.edge_Box.setItemText(1, QCoreApplication.translate("MainWindow", u"miR-935", None))
         self.edge_Box.setItemText(2, QCoreApplication.translate("MainWindow", u"miR-2284w", None))
 
         self.default_button.setText(QCoreApplication.translate("MainWindow", u"Default", None))
