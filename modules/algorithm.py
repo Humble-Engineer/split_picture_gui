@@ -2,8 +2,7 @@ import cv2
 import numpy as np
 import os
 import datetime
-
-
+import pandas as pd
 
 class Algorithm:
     def __init__(self, main_window=None):
@@ -118,7 +117,7 @@ class Algorithm:
             
             # 写入参数信息
             ws.column_dimensions['A'].width = 15
-            ws.column_dimensions['B'].width = 100
+            ws.column_dimensions['B'].width = 15
             
             # 标题行
             ws.cell(row=1, column=1, value="参数名称").font = bold_font
@@ -151,30 +150,10 @@ class Algorithm:
             ws.cell(row=row_index, column=2, value=self.RNA_type if self.RNA_type else "未指定").alignment = center_alignment
             row_index += 1
             
-            # 生成拟合曲线表达式
-            if hasattr(self, 'coefficients') and self.coefficients is not None:
-                # 格式化系数，保留三位有效数字
-                coeffs_formatted = [f"{coef:.3g}" for coef in self.coefficients]
-                terms = []
-                for i, coef in enumerate(coeffs_formatted):
-                    power = len(coeffs_formatted) - 1 - i
-                    if power == 0:
-                        terms.append(f"{coef}")
-                    elif power == 1:
-                        terms.append(f"{coef}*x")
-                    else:
-                        terms.append(f"{coef}*x^{power}")
-                
-                expression = "P(x) = " + " + ".join(terms).replace("+ -", "- ")
-            else:
-                expression = "未生成拟合曲线"
-                
-            ws.cell(row=row_index, column=1, value="曲线").alignment = center_alignment
-            ws.cell(row=row_index, column=2, value=expression).alignment = center_alignment
             
             # 保存Excel文件
-            wb.save(os.path.join(output_dir, 'parameters.xlsx'))
-            print(f"检测参数已保存至: {os.path.join(output_dir, 'parameters.xlsx')}")
+            wb.save(os.path.join(output_dir, '输入参数.xlsx'))
+            print(f"检测参数已保存至: {os.path.join(output_dir, '输入参数.xlsx')}")
             
         except Exception as e:
             print(f"保存检测参数失败: {str(e)}")
@@ -265,9 +244,30 @@ class Algorithm:
             ws1.row_dimensions[1].height = 30  # 第一行表头行高为30
             for row in range(2, len(sub_image_info) + 2):  # 数据行
                 ws1.row_dimensions[row].height = 60  # 设置行高以便显示图像
+
+            # 创建新的工作表来记录系数
+            if hasattr(self, 'coefficients') and self.coefficients is not None:
+
+                bold_font = Font(bold=True)
+
+                coeff_ws = wb.create_sheet("标曲拟合系数")
+                coeff_ws.column_dimensions['A'].width = 15
+                coeff_ws.column_dimensions['B'].width = 20
+                
+                # 标题行
+                coeff_ws.cell(row=1, column=1, value="系数项").font = bold_font
+                coeff_ws.cell(row=1, column=1).alignment = center_alignment
+                coeff_ws.cell(row=1, column=2, value="系数值").font = bold_font
+                coeff_ws.cell(row=1, column=2).alignment = center_alignment
+                
+                # 写入系数数据
+                coeff_names = ["x^5", "x^4", "x^3", "x^2", "x^1", "x^0"]
+                for i, (name, coeff) in enumerate(zip(coeff_names, self.coefficients)):
+                    coeff_ws.cell(row=i+2, column=1, value=name).alignment = center_alignment
+                    coeff_ws.cell(row=i+2, column=2, value=coeff).alignment = center_alignment
             
-            wb.save(os.path.join(output_dir, 'results.xlsx'))
-            print(f"Excel已保存至: {os.path.join(output_dir, 'results.xlsx')}")
+            wb.save(os.path.join(output_dir, '检测结果.xlsx'))
+            print(f"Excel已保存至: {os.path.join(output_dir, '检测结果.xlsx')}")
         except Exception as e:
             print(f"Excel保存失败: {str(e)}")
         
@@ -300,6 +300,7 @@ class Algorithm:
         except Exception as e:
             print(f"打开目录时出错: {e}")
 
+
     def argu_update_rna_type(self):
         try:
             if hasattr(self.main_window, 'ui') and hasattr(self.main_window.ui, 'type_Box'):
@@ -312,40 +313,63 @@ class Algorithm:
         # 默认系数防止未定义情况
         self.coefficients = None
             
-        if self.RNA_type == 'miR-223':
-            x = np.array([3.3, 12.33, 20.20, 45, 57.73, 64.67])
-            y = np.array([0, 1, 2, 3, 4, 5])
-        elif self.RNA_type == 'miR-935':
-            x = np.array([1.8, 12.3, 31.5, 50.7, 60, 66.1])
-            y = np.array([0, 1, 2, 3, 4, 5])
-        elif self.RNA_type == 'miR-2284W':
-            x = np.array([1.8, 17.27, 18.24, 52, 50.4, 60.5])
-            y = np.array([0, 1, 2, 3, 4, 5])
-        else:
-            # 如果RNA类型不匹配，设置默认值防止后续计算错误
-            print(f"未知的RNA类型: {self.RNA_type}，使用默认系数")
-            self.coefficients = np.array([0, 0, 0, 0, 0, 0])
-            return
+        # 从Excel文件读取数据
+        try:
+            excel_path = os.path.join('arguments', 'curve.xlsx')
+            if not os.path.exists(excel_path):
+                raise FileNotFoundError(f"找不到Excel文件: {excel_path}")
+            
+            # 读取对应的sheet
+            df = pd.read_excel(excel_path, sheet_name=self.RNA_type)
+            
+            # 提取x和y列数据
+            x = df['相对灰度'].values
+            y = df['lg(浓度)'].values
+            
+        except Exception as e:
+            # 弹窗报错并退出
+            error_msg = f"读取Excel文件失败:\n{str(e)}"
+            print(error_msg)
+            try:
+                from PySide6.QtWidgets import QMessageBox
+                if hasattr(self, 'main_window') and self.main_window:
+                    QMessageBox.critical(self.main_window, "错误", error_msg)
+                else:
+                    # 如果无法访问主窗口，则在控制台输出错误
+                    print("无法显示GUI错误对话框，仅在控制台输出错误信息")
+            except:
+                pass
+            # 重新抛出异常，中断程序执行
+            raise e
 
-        print(self.RNA_type)
+        print(f"当前选择的RNA类型: {self.RNA_type}")
+        print(f"拟合数据点:")
+        for i, (x_val, y_val) in enumerate(zip(x, y)):
+            print(f"  point_{i+1}: diff={x_val}, lg(c)={y_val}")
         
         # 拟合标准曲线（最后的参数为需要拟合的次数）
         self.coefficients = np.polyfit(x, y, 5)
 
-        # 格式化系数，保留三位有效数字
+        # 显示系数的矩阵形式
         coeffs_formatted = [f"{coef:.3g}" for coef in self.coefficients]
-        print("P(x) = ", end="")
-        terms = []
-        for i, coef in enumerate(coeffs_formatted):
-            power = 5 - i
-            if power == 0:
-                terms.append(f"{coef}")
-            elif power == 1:
-                terms.append(f"{coef}*x")
-            else:
-                terms.append(f"{coef}*x^{power}")
+        print("拟合的5次多项式曲线方程系数 (从高次到低次):")
+        print(f"  P(x) = a5*x^5 + a4*x^4 + a3*x^3 + a2*x^2 + a1*x + a0")
+        print(f"  系数矩阵: [{', '.join(coeffs_formatted)}]")
+        
+        # # 也显示方程式形式
+        # print("方程式形式: P(x) = ", end="")
+        # terms = []
+        # for i, coef in enumerate(coeffs_formatted):
+        #     power = 5 - i
+        #     if power == 0:
+        #         terms.append(f"{coef}")
+        #     elif power == 1:
+        #         terms.append(f"{coef}*x")
+        #     else:
+        #         terms.append(f"{coef}*x^{power}")
             
-        print(" + ".join(terms).replace("+ -", "- "))
+        # print(" + ".join(terms).replace("+ -", "- "))
+
         
     def count(self, main_window=None):
         # 初始化参数
