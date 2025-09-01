@@ -692,11 +692,11 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>16</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="text">
-           <string>RNA type：</string>
+           <string>miRNA type：</string>
           </property>
          </widget>
         </item>
