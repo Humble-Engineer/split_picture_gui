@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'MainWindow.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.0
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -15,9 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHBoxLayout,
-    QLabel, QLayout, QMainWindow, QPushButton,
-    QSizePolicy, QSlider, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QGridLayout,
+    QHBoxLayout, QLabel, QLayout, QMainWindow,
+    QPushButton, QSizePolicy, QSlider, QVBoxLayout,
+    QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -53,7 +54,7 @@ class Ui_MainWindow(object):
         self.result_img.setMaximumSize(QSize(1200, 800))
         self.result_img.setFrameShape(QFrame.Shape.Panel)
 
-        self.gridLayout.addWidget(self.result_img, 0, 0, 3, 1)
+        self.gridLayout.addWidget(self.result_img, 0, 0, 4, 1)
 
         self.gridLayout_2 = QGridLayout()
         self.gridLayout_2.setObjectName(u"gridLayout_2")
@@ -312,6 +313,45 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addLayout(self.blur_layout, 1, 1, 1, 1)
 
+        self.verticalLayout_2 = QVBoxLayout()
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.label_11 = QLabel(self.centralwidget)
+        self.label_11.setObjectName(u"label_11")
+        sizePolicy3.setHeightForWidth(self.label_11.sizePolicy().hasHeightForWidth())
+        self.label_11.setSizePolicy(sizePolicy3)
+        self.label_11.setMinimumSize(QSize(0, 0))
+        self.label_11.setMaximumSize(QSize(285, 40))
+        self.label_11.setFont(font3)
+        self.label_11.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.verticalLayout_2.addWidget(self.label_11)
+
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.rows_label_3 = QLabel(self.centralwidget)
+        self.rows_label_3.setObjectName(u"rows_label_3")
+        self.rows_label_3.setMaximumSize(QSize(120, 100))
+        self.rows_label_3.setFont(font4)
+
+        self.horizontalLayout.addWidget(self.rows_label_3)
+
+        self.edge_Box = QComboBox(self.centralwidget)
+        self.edge_Box.addItem("")
+        self.edge_Box.addItem("")
+        self.edge_Box.addItem("")
+        self.edge_Box.setObjectName(u"edge_Box")
+        self.edge_Box.setMinimumSize(QSize(0, 50))
+        self.edge_Box.setMaximumSize(QSize(120, 16777215))
+        self.edge_Box.setMaxVisibleItems(10)
+
+        self.horizontalLayout.addWidget(self.edge_Box)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout)
+
+
+        self.gridLayout.addLayout(self.verticalLayout_2, 2, 1, 1, 1)
+
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.default_button = QPushButton(self.centralwidget)
@@ -347,7 +387,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.count_button)
 
 
-        self.gridLayout.addLayout(self.verticalLayout, 2, 1, 1, 1)
+        self.gridLayout.addLayout(self.verticalLayout, 3, 1, 1, 1)
 
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -373,6 +413,12 @@ class Ui_MainWindow(object):
         self.r_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.r_label_3.setText(QCoreApplication.translate("MainWindow", u"Accuracy:", None))
         self.precision_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
+        self.label_11.setText(QCoreApplication.translate("MainWindow", u"Fit curve", None))
+        self.rows_label_3.setText(QCoreApplication.translate("MainWindow", u"RNA type\uff1a", None))
+        self.edge_Box.setItemText(0, QCoreApplication.translate("MainWindow", u"miR-485", None))
+        self.edge_Box.setItemText(1, QCoreApplication.translate("MainWindow", u"miR-223", None))
+        self.edge_Box.setItemText(2, QCoreApplication.translate("MainWindow", u"miR-2284w", None))
+
         self.default_button.setText(QCoreApplication.translate("MainWindow", u"Default", None))
         self.count_button.setText(QCoreApplication.translate("MainWindow", u"Start", None))
     # retranslateUi
